@@ -3,6 +3,7 @@
 *.tfstate
 *.tfstate.*
 *.tfplan
+*.lock.hcl
 
 # Logs de crash
 crash.log
