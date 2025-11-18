@@ -52,6 +52,28 @@ resource "aws_subnet" "private_subnet_1b" {
   }
 }
 
+## Create Public Subnet - AZ C
+resource "aws_subnet" "public_subnet_1c" {
+  vpc_id     = aws_vpc.minha-vpc.id
+  cidr_block = "10.0.3.0/24"
+  availability_zone = "us-east-1c"
+
+  tags = {
+    Name = "public_subnet_1c"
+  }
+}
+
+## Create Private Subnet - AZ C
+resource "aws_subnet" "private_subnet_1c" {
+  vpc_id     = aws_vpc.minha-vpc.id
+  cidr_block = "10.0.30.0/24"
+  availability_zone = "us-east-1c"
+  tags = {
+    Name = "private_subnet_1c"
+  }
+}
+
+
 ## Create Internet gateway
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.minha-vpc.id
@@ -88,6 +110,14 @@ resource "aws_route_table_association" "public_rt_b" {
   route_table_id = aws_route_table.public-rt.id
 }
 
+## Associate public route table to public subnet 1c
+resource "aws_route_table_association" "public_rt_c" {
+  subnet_id      = aws_subnet.public_subnet_1c.id
+  route_table_id = aws_route_table.public-rt.id
+}
+
+
+
 ## Create route public table 1a (modify default toute table)
 resource "aws_default_route_table" "private-rt-1a" {
   default_route_table_id = aws_vpc.minha-vpc.default_route_table_id
@@ -116,6 +146,21 @@ resource "aws_route_table" "private-rt-1b" {
   }
 }
 
+## Create route table 1c
+resource "aws_route_table" "private-rt-1c" {
+  vpc_id = aws_vpc.minha-vpc.id
+
+   #since this is exactly the route AWS will create, the route will be adopted
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_nat_gateway.ntg_1c.id
+  }
+    tags = {
+      Name = "private-rt-1c-terraform"
+  }
+}
+
+
 ## Associate private route table to private subnet 1a
 resource "aws_route_table_association" "private_rt-1a" {
   subnet_id      = aws_subnet.private_subnet_1a.id
@@ -128,6 +173,14 @@ resource "aws_route_table_association" "private_rt-1b" {
   route_table_id = aws_route_table.private-rt-1b.id
 }
 
+## Associate private route table to private subnet 1c
+resource "aws_route_table_association" "private_rt-1c" {
+  subnet_id      = aws_subnet.private_subnet_1c.id
+  route_table_id = aws_route_table.private-rt-1c.id
+}
+
+
+
 ## Create Elastic IP 1a
 resource "aws_eip" "eip_1a" {
   domain   = "vpc"
@@ -136,13 +189,23 @@ resource "aws_eip" "eip_1a" {
   }
 }
 
-## Create Elastic IP 1a
+## Create Elastic IP 1b
 resource "aws_eip" "eip_1b" {
   domain   = "vpc"
   tags ={
-    Name = "eip-1a-terraform"
+    Name = "eip-1b-terraform"
   }
 }
+
+## Create Elastic IP 1c
+resource "aws_eip" "eip_1c" {
+  domain   = "vpc"
+  tags ={
+    Name = "eip-1c-terraform"
+  }
+}
+
+
 
 ## Create natgateway 1a
 resource "aws_nat_gateway" "ntg_1a" {
@@ -171,4 +234,19 @@ resource "aws_nat_gateway" "ntg_1b" {
   # on the Internet Gateway for the VPC.
   depends_on = [aws_internet_gateway.igw]
 }
+
+## Create natgateway 1c
+resource "aws_nat_gateway" "ntg_1c" {
+  allocation_id = aws_eip.eip_1c.id
+  subnet_id     = aws_subnet.private_subnet_1c.id
+
+  tags = {
+    Name = "nat-gateway-1c"
+  }
+
+  # To ensure proper ordering, it is recommended to add an explicit dependency
+  # on the Internet Gateway for the VPC.
+  depends_on = [aws_internet_gateway.igw]
+}
+
 
