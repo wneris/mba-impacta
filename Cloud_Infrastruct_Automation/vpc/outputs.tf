@@ -35,7 +35,8 @@ output "public-route_id" {
 }
 
 output "private-route-1a_id" {
-  value = aws_default_route_table.private-rt-1a.id
+  #value = aws_default_route_table.private-rt-1a.id
+  value = aws_route_table.private-rt-1a.id
 }
 
 output "private-route-1b_id" {

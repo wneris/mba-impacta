@@ -119,18 +119,32 @@ resource "aws_route_table_association" "public_rt_c" {
 
 
 ## Create route public table 1a (modify default toute table)
-resource "aws_default_route_table" "private-rt-1a" {
-  default_route_table_id = aws_vpc.minha-vpc.default_route_table_id
+#resource "aws_default_route_table" "private-rt-1a" {
+#  default_route_table_id = aws_vpc.minha-vpc.default_route_table_id
+#  route {
+#    cidr_block = "0.0.0.0/0"
+#    gateway_id = aws_nat_gateway.ntg_1a.id
+
+#  }
+
+#  tags = {
+#    Name = "private-rt-1a-terraform"
+#  }
+#}
+
+## Create route public table 1a
+resource "aws_route_table" "private-rt-1a" {
+  vpc_id = aws_vpc.minha-vpc.id
+
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.ntg_1a.id
-
   }
-
   tags = {
     Name = "private-rt-1a-terraform"
   }
 }
+
 
 ## Create route table 1b
 resource "aws_route_table" "private-rt-1b" {
@@ -164,7 +178,8 @@ resource "aws_route_table" "private-rt-1c" {
 ## Associate private route table to private subnet 1a
 resource "aws_route_table_association" "private_rt-1a" {
   subnet_id      = aws_subnet.private_subnet_1a.id
-  route_table_id = aws_default_route_table.private-rt-1a.id
+  #route_table_id = aws_default_route_table.private-rt-1a.id
+  route_table_id = aws_route_table.private-rt-1a.id
 }
 
 ## Associate private route table to private subnet 1b
