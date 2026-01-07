@@ -1,16 +1,10 @@
-name: Deploy VPC
+name: Destroy VPC
 
   #defaults:
   #  run:
   #    working-directory: ./Cloud_Infrastruct_Automation/network_for-each
 on:
-  push:
-    branches:
-      - main
-        #   paths-ignore:
-        #     - '.github/**'
-    paths:
-      - 'Cloud_Infrastruct_Automation/network_for-each/**'
+  workflow_dispatch: #executar manualmente
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
