@@ -1,7 +1,0 @@
-1. Criar VPC -✅
-2. Subnets publicas 
-    1.1. foi criada  duas subnets publicas da forma tradicional - ✅
-    1.2. modificar o codigo para for_each - ✅
-    1.3. entender as variáveis pegando numero sequencial - ✅
-    1.4. entender a diferença entre linha 5 e 7
-    1.5. output - variáveis - ✅
