@@ -1,4 +1,7 @@
 name: Deploy Infra
+defaults:
+  run:
+    working-directory: ./Cloud_Infrastruct_Automation/network_for-each
 on:
   pull_request:
     branches:
