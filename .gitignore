@@ -42,3 +42,6 @@ terraform.rc
 .DS_Store
 Thumbs.db
 
+# === Linux Files ===
+*.swp
+*.txt
