@@ -30,7 +30,7 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
-          directory: .
+          directory: ./Cloud_Infrastruct_Automation/network_for-each
           framework: terraform 
         #continue-on-error: true
           
