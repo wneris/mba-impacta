@@ -6,8 +6,6 @@ on:
   pull_request:
     branches:
       - main
-        #   paths-ignore:
-        #     - '.github/**'
     paths:
       - 'Cloud_Infrastruct_Automation/network_for-each/**'
 
@@ -21,7 +19,7 @@ jobs:
     name: 'Check TF Vuls'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4 # Atualizado para v4
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
@@ -30,21 +28,22 @@ jobs:
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with:
+          # O Checkov precisa do caminho relativo à raiz do repo
           directory: ./Cloud_Infrastruct_Automation/network_for-each
-          framework: terraform 
+          framework: terraform
         continue-on-error: true
-          
+
   Apply:
     name: 'Apply Changes'
     runs-on: ubuntu-latest
-    # runs-on: [shared, self-hosted]
     environment: lab
     needs: Checkov
-
     defaults:
       run:
         shell: bash
-        
+        # Repetindo o working-directory para garantir o contexto neste job
+        working-directory: ./Cloud_Infrastruct_Automation/network_for-each
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,14 +52,9 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
-          directory: ./Cloud_Infrastruct_Automation/network_for-each
 
       - name: Terraform Init
         run: terraform init
-        with:
-          directory: ./Cloud_Infrastruct_Automation/network_for-each
 
       - name: Terraform Apply
         run: terraform apply --auto-approve
-        with:
-          directory: ./Cloud_Infrastruct_Automation/network_for-each
