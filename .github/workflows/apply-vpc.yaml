@@ -53,9 +53,14 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: false
+          directory: ./Cloud_Infrastruct_Automation/network_for-each
 
       - name: Terraform Init
         run: terraform init
-        
+        with:
+          directory: ./Cloud_Infrastruct_Automation/network_for-each
+
       - name: Terraform Apply
         run: terraform apply --auto-approve
+        with:
+          directory: ./Cloud_Infrastruct_Automation/network_for-each
