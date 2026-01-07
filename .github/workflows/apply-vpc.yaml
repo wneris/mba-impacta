@@ -32,7 +32,7 @@ jobs:
         with:
           directory: ./Cloud_Infrastruct_Automation/network_for-each
           framework: terraform 
-        #continue-on-error: true
+        continue-on-error: true
           
   Apply:
     name: 'Apply Changes'
