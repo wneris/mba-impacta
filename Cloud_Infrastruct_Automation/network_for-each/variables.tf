@@ -61,3 +61,9 @@ variable "project" {
   description = "Projeto"
   default     = "terraform"
 }
+
+variable "bucket_s3" {
+  type        = string
+  description = "Prefixo do S3"
+  default     = "339713145552-tfstate"
+}
