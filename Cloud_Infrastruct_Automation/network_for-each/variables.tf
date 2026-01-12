@@ -54,7 +54,7 @@ variable "subnets_availability_zone" {
 variable "environment" {
   type        = string
   description = "Ambiente"
-  default     = "prod"
+  default     = "lab-impacta"
 } 
 variable "project" {
   type        = string
