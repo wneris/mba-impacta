@@ -6,5 +6,6 @@ resource "aws_vpc" "vpc-main" {
     Name = var.vpc_name
     Environment = var.environment
     Project = var.project
+    Test = var.test
   }
 }
