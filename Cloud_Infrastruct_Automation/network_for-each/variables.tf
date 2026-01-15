@@ -60,5 +60,10 @@ variable "project" {
   type        = string
   description = "Projeto"
   default     = "terraform"
-  vtest = "v1"
+}
+
+variable "test" {
+  type        = string
+  description = "Test"
+  default     = "v2"
 }
