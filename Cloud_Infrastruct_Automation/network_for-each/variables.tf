@@ -65,5 +65,5 @@ variable "project" {
 variable "test" {
   type        = string
   description = "Test"
-  default     = "v2"
+  default     = "v3"
 }
